@@ -110,21 +110,21 @@ listeners to update. Below is some code which shows this: </p>
 checks if the command entered is correct. </p>
 
 ```
-	public void command(String command) {
-		try {
-			ProcessBuilder builder = new ProcessBuilder("bash","-c",command);
-			Process process = builder.start();
-			_stdOut = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			_stdErr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-			int exitStatus = process.waitFor();
-			if(exitStatus!=0) {
-				return;
-			}
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Error while processing");
-			System.exit(0);
+public void command(String command) {
+	try {
+		ProcessBuilder builder = new ProcessBuilder("bash","-c",command);
+		Process process = builder.start();
+		_stdOut = new BufferedReader(new InputStreamReader(process.getInputStream()));
+		_stdErr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+		int exitStatus = process.waitFor();
+		if(exitStatus!=0) {
+			return;
 		}
+	} catch (Exception e) {
+		JOptionPane.showMessageDialog(null, "Error while processing");
+		System.exit(0);
 	}
+}
 ```
 
 <h6>Audio recording. </h6>
@@ -132,17 +132,16 @@ checks if the command entered is correct. </p>
 is to record the audio in the background. This is so that the gui does not freeze. We can do this through the use of SwingWorker.</p>
 
 ```
-		bash.command("ffmpeg -f alsa -ac 1 -ar 44100 -i default -t 5 ./Creations/\"" + _name +".wav\" &> /dev/null");
+	bash.command("ffmpeg -f alsa -ac 1 -ar 44100 -i default -t 5 ./Creations/\"" + _name +".wav\" &> /dev/null");
 ```
 
 <h6> Playing the video </h6>
 <p>VLCJ was used for playing the video. This is because we wanted to keep the video in the same gui as the application. We also needed to make sure that the video was also playing in the background or else the gui would freeze.</p>
 
 ```
-			final EmbeddedMediaPlayer video = _component.getMediaPlayer();
-			if(_name!=null){	
-				video.playMedia("Creations/"+_name+ "." +_type );
-			}
-			return null;
-		}
+	final EmbeddedMediaPlayer video = _component.getMediaPlayer();
+	if(_name!=null){	
+		video.playMedia("Creations/"+_name+ "." +_type );
+	}
+	return null;
 ```
